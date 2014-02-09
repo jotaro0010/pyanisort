@@ -22,26 +22,26 @@ The history argument takes the name of a csv file that will store the renaming h
 
 The program will sort this:
 ```
-├── From Folder/
-│   │ [Sub Group A] Series Name - 01 [ABCD1234].mkv
-│   │ [Sub Group A] Series Name - 02 [ABCD1234].mkv
-│   │ [Sub Group A] Series Name - 03 [ABCD1234].mkv
-│   │ [Sub Group B] Other Series Name Ep01 [ABCD1234].mkv
-│   │ [Sub Group B] Other Series Name Ep02 [ABCD1234].mkv
-│   │ [Sub Group B] Other Series Name Ep03 [ABCD1234].mkv
+|-- From Folder/
+|   | [Sub Group A] Series Name - 01 [ABCD1234].mkv
+|   | [Sub Group A] Series Name - 02 [ABCD1234].mkv
+|   | [Sub Group A] Series Name - 03 [ABCD1234].mkv
+|   | [Sub Group B] Other Series Name Ep01 [ABCD1234].mkv
+|   | [Sub Group B] Other Series Name Ep02 [ABCD1234].mkv
+|   | [Sub Group B] Other Series Name Ep03 [ABCD1234].mkv
 ```
 
 To This:
 ```
-├── To Folder/
-│   ├── Series Name/
-│   │   ├── Series Name - 01 - title.mkv
-│   │   ├── Series Name - 02 - title.mkv
-│   │   ├── Series Name - 03 - title.mkv
-│   ├── Other Series Name/
-│   │   ├── Other Series Name - 01 - title.mkv
-│   │   ├── Other Series Name - 02 - title.mkv
-│   │   ├── Other Series Name - 03 - title.mkv
+|-- To Folder/
+|   |-- Series Name/
+|   |   |-- Series Name - 01 - title.mkv
+|   |   |-- Series Name - 02 - title.mkv
+|   |   |-- Series Name - 03 - title.mkv
+|   |-- Other Series Name/
+|   |   |-- Other Series Name - 01 - title.mkv
+|   |   |-- Other Series Name - 02 - title.mkv
+|   |   |-- Other Series Name - 03 - title.mkv
 ```
 
 ### The undo command
