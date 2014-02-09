@@ -44,12 +44,25 @@ def openFile(filename):
     return stringFile
 
 def downloadFile(url, filename):
+    # only supports relative paths
+    
+    path, file = os.path.split(filename)
+    
+    # make any directories that where not there before
+    try:
+        os.makedirs(path)
+    except (IOError, OSError) as e:
+        if (errno.errorcode[e.errno] == 'EEXIST'):
+            pass
+        else:
+            logger.error("Error[{0}] in directory {1}: {2}".format(e.errno, path, e.strerror))
+            
     try:
         with urllib.request.urlopen(url) as response,\
              open(filename, 'wb') as outFile:
             shutil.copyfileobj(response, outFile)
     except IOError as e:
-        logger.error("IOError[{0}] in file {1}: {2}".format(e.errno, oldName, e.strerror))
+        logger.error("IOError[{0}] in file {1}: {2}".format(e.errno, filename, e.strerror))
     except (ValueError, urllib.error.HTTPError) as e:
         logger.error("Error downloading file {0} from '{1}': {2}".format(filename, url, e.strerror))
 
@@ -106,6 +119,7 @@ def renameFiles(filenameList, histFile='history.csv', storeHistory=False):
     if storeHistory: histWriter.close()
 
 def undoRename(lineStart, lineStop, filename='history.csv'):
+    
     # decrement value by one to use in array
     lineStart -= 1
     lineStop -= 1

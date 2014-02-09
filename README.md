@@ -137,4 +137,3 @@ This is a security measure put in place by the server and I have not found any o
 ## Contact Me
 
 Questions or comments about `pyAniSort`? send me an email at [jotaro0010@gmail.com](mailto:jotaro0010@gmail.com).
-

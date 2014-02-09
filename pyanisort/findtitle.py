@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import seriesMatch
-import utilities
+try:
+    import pyanisort.utilities as utilities
+except ImportError:
+    import utilities
+    
 import os
 import re
 import xml.etree.ElementTree as ET
@@ -27,7 +30,7 @@ def parseSeriesXML(seriesXMLFilename):
     try:
         xmlFile = utilities.openFile(seriesXMLFilename)
     except IOError as e:
-        logger.error("IOError[{0}] in file {1}: {2}".format(e.errno, seriesXMLFilename, e.strerror))
+        logger.warning("File {1}: {2}".format(e.errno, seriesXMLFilename, e.strerror))
         downloadSeriesXML(seriesXMLFilename, aid, version)
         xmlFile = utilities.openFile(seriesXMLFilename)
     tree = ET.parse(xmlFile)
@@ -57,6 +60,7 @@ def parseSeriesXML(seriesXMLFilename):
                         return
             else:
                 logger.error("Error parsing through {0}: {1}".format(seriesXMLFilename, root.text))
+                return
         else:
             logger.error('unknown error occured parsing {0}'.format(seriesXMLFilename))
             return
@@ -142,7 +146,7 @@ def generateFilenames(ver, allShows, outDir, cacheDir):
         titleList = parseSeriesXML(xmlFilename)
         if titleList is None:
             logger.error('an error has occured while processing information for series {0}'.format(seriesName))
-            break
+            continue
 
         #use all previous info ro generate list of new names
         newFilenames = generateFilenamesSeries(xmlFilename, outDir, seriesName,
