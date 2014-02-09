@@ -145,8 +145,11 @@ D:\test_files\[Irrational Typesetting Wizardry] NouCome - 01 [F87C6CC0].mkv,"D:\
 ```
 
 ## Installation
-Link to PyPI page: https://pypi.python.org/pypi/pyAniSort
+Link to PyPI page: https://pypi.python.org/pypi/pyAniSort  
 There is also a windows installation binary if you don't want to install pip.
+
+Make sure that you are using the python3 version of pip when installing.  
+This program only works with python3  
 
 `> pip install pyanisort`
 
