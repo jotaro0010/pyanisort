@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
-import utilities
+try:
+    import pyanisort.utilities as utilities
+except ImportError:
+    import utilities
+    
 import xml.etree.ElementTree as ET
 import re
 import difflib
