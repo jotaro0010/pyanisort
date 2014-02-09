@@ -78,7 +78,7 @@ prefNames.csv and history.csv
 As of right now they will be stored along with the log files in the python `lib/site-packages`
 Windows: `C:\Python33\Lib\site-packages`
 
-### prefNames.csv - Prefered show names
+### `prefNames.csv` - Prefered show names
 This file is for storing information about the show. This helps save time when gathering show information multiple times.
 There are three values stored in the csv file the **anime ID (aid)**, **official show name**, and the **parsed name**
 
@@ -98,9 +98,37 @@ prefName.csv
 9541,Shingeki no Kyojin,Shingeki no Kyojin
 9787,"Ore no Nounai Sentakushi ga, Gakuen Lovecome o Zenryoku de Jama Shiteiru",NouCome
 ```
+_______
 
+One of the useful things about putting this information in a csv file like this is that the changes can be made to it outside of the program.  
 
-### history.csv - File rename history
+For example:  
+The official name of `NouCome` above is quite a mouthfull. It also takes up a lot of space and might even make new filenames run into the 255 character limit on windows.
+
+So wouldn't it be better if you could change this:  
+`Ore no Nounai Sentakushi ga, Gakuen Lovecome o Zenryoku de Jama Shiteiru`
+
+To it's shorthand name:  
+`NouCome`
+
+You can do this by editing the `prefName.csv` file. I suggest using a standard text editor than Excel. Excel might mess up the file and cause a problem when the program reads it.
+
+So you would edit the `prefName.csv` file from:  
+```
+prefName.csv
+9541,Shingeki no Kyojin,Shingeki no Kyojin
+9787,"Ore no Nounai Sentakushi ga, Gakuen Lovecome o Zenryoku de Jama Shiteiru",NouCome
+```  
+To this:  
+```
+prefName.csv
+9541,Shingeki no Kyojin,Shingeki no Kyojin
+9787,"NouCome",NouCome
+```
+
+Now when the program goes to rename your files it will use `NouCome` instead of `Ore no Nounai Sentakushi ga, Gakuen Lovecome o Zenryoku de Jama Shiteiru`
+
+### `history.csv` - File rename history
 
 There are two columns in the history.csv file. The first refers to the original location of a video file and the second refers to the sorted location
 
@@ -109,7 +137,7 @@ There are two columns in the history.csv file. The first refers to the original 
 | D:\test_files\[Sub Group A] Series Name - 01 [ABCD1234].mkv | D:\Anime\Series Name\Series Name - 01 - title.mkv |
 | D:\test_files\[Sub Group B] Other Series Name Ep01 [ABCD1234].mkv | D:\Anime\Other Series Name\Other Series Name - 01 - title.mkv |
 
-This is an example ot the contents of history.csv useig real filenames
+This is an example ot the contents of history.csv useing real filenames
 ```
 history.csv
 D:\test_files\[EveTaku] Shingeki no Kyojin - 25 (1280x720 x264-Hi10P AAC)[783716E5].mkv,D:\Anime\Shingeki no Kyojin\Shingeki no Kyojin - 25 - The Wall Raid on Stohess District (3).mkv
@@ -118,6 +146,7 @@ D:\test_files\[Irrational Typesetting Wizardry] NouCome - 01 [F87C6CC0].mkv,"D:\
 
 ## Installation
 Link to PyPI page: https://pypi.python.org/pypi/pyAniSort
+There is also a windows installation binary if you don't want to install pip.
 
 `> pip install pyanisort`
 
@@ -132,7 +161,6 @@ This means that the anidb.net server has gotten too many requests from the machi
 It will refuse any more connections for the next couple hours.
 
 This is a security measure put in place by the server and I have not found any other method of getting around it other than by waiting a couple hours to run the script again
-
 
 
 ## Contact Me
