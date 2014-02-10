@@ -18,7 +18,7 @@ The silent option turns off any parts of the script that would ask for user inpu
 The history argument takes the name of a csv file that will store the renaming history
 `--history FILE`     changes where to save history file ('history.csv' is the default)
 
-`> pyAniSort sort 'from/directory' 'to/directory' -s --history history.csv`
+`$ pyAniSort sort 'from/directory' 'to/directory' -s --history history.csv`
 
 The program will sort this:
 ```
@@ -53,20 +53,20 @@ There are two required positional arguments that are required for the undo comma
 The history argument takes the name of a csv file that will store the renaming history
 `--history FILE`     changes where to save history file ('history.csv' is the default)
 
-`> pyanisort undo startLine endLine --history history.csv`
+`$ pyanisort undo startLine endLine --history history.csv`
 
 The first one will tell the program what line of the file to start on and the second will tell it what line to end on.  
 This allows better control of what files to undo
 
 Running the following command will start undoing the files stored in history.csv from line 30 to line 40, or until the end of the file if there are less than 40 lines.  
-`> pyanisort undo 30 40`
+`$ pyanisort undo 30 40`
 
 this next command will undo all of the files stored in the history.csv file.  
-`> pyanisort undo 0 0`
+`$ pyanisort undo 0 0`
 
 Both of the following commands will only undo the file at line 44 of the history.csv file  
-`> pyanisort undo 44 44`  
-`> pyanisort undo 44 0`
+`$ pyanisort undo 44 44`  
+`$ pyanisort undo 44 0`
 
 After any one of these commands are used the history.csv file will be modified to reflect the undo operation.
 
@@ -151,7 +151,12 @@ There is also a windows installation binary if you don't want to install pip.
 Make sure that you are using the python3 version of pip when installing.  
 This program only works with python3  
 
-`> pip install pyanisort`
+`$ pip install pyanisort`
+
+If you don't have pip installed you can run these commands from the terminal to get it  
+`$ sudo curl http://python-distribute.org/distribute_setup.py | python3`
+`$ sudo curl https://raw.github.com/pypa/pip/master/contrib/get-pip.py | python3`
+
 
 ## Possible Errors
 There are a few possible errors that may occur when running this script
