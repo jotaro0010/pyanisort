@@ -2,6 +2,5 @@ include *.md
 include *.py
 include *.txt
 include LICENSE
-include Makefile
 recursive-include pyanisort *.conf
 recursive-include pyanisort *.log

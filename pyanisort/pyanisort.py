@@ -25,12 +25,12 @@ def findConfDir():
     elif sys.platform == 'linux2':
         return os.path.join(os.getenv('HOME'), '.pyanisort')
     
-
 def makeConfig(confPath):
     os.mkdir(confPath)
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
-    shutil.copytree('logs', confPath)
-    shutil.copytree('conf', confPath)
+    
+    shutil.copytree('logs', confPath+'\logs')
+    shutil.copytree('conf', confPath+'\conf')
     
 def main():
     parser = argparse.ArgumentParser(description='Will automatically sort and rename anime files in a folder based off information gathered from anidb.net')
@@ -52,7 +52,6 @@ def main():
         parser.print_help()
         return
         
-
     if args.command == 'undo':
         history=os.path.abspath(args.history)
 
@@ -60,7 +59,7 @@ def main():
         try:
             os.chdir(confDir)
         except IOError:
-            makeConfig()
+            makeConfig(confDir)
             os.chdir(confDir)
 
         logging.config.fileConfig('conf/logger.conf', disable_existing_loggers=False)
@@ -90,7 +89,7 @@ def main():
         try:
             os.chdir(confDir)
         except IOError:
-            makeConfig()
+            makeConfig(confDir)
             os.chdir(confDir)
             
         logging.config.fileConfig('conf/logger.conf', disable_existing_loggers=False)
@@ -117,7 +116,6 @@ def main():
         else:
             utilities.renameFiles(allNewFilenames, history, storeHistory=True)
         logger.info("Files have been renamed")
-
 
 if __name__ == '__main__':
     main()
