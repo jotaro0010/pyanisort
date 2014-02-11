@@ -12,6 +12,7 @@ except ImportError:
 from setuptools.command.test import test as TestCommand
 import io
 import os
+import codecs
 import sys
 import re
 
@@ -19,7 +20,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 
 def read(*parts):
     # intentionally *not* adding an encoding option to open
-    return open(os.path.join(here, *parts), 'r').read()
+    return codecs.open(os.path.join(here, *parts), 'r').read()
 
 def find_version(*file_paths):
     version_file = read(*file_paths)
@@ -48,11 +49,10 @@ setup(
 
     entry_points = {
         'console_scripts': [
-            'pyanisort = pyanisort.main:main',
+            'pyanisort = pyanisort.pyanisort:main',
         ],
     },
-
-
+	
     classifiers = [
         "Development Status :: 3 - Alpha",
         'Programming Language :: Python',

@@ -1,18 +1,37 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import utilities
-import seriesMatch
-import findTitle
+try:
+    import pyanisort.utilities as utilities
+    import pyanisort.seriesmatch as seriesmatch
+    import pyanisort.findtitle as findtitle
+    from pyanisort.__init__ import __version__
+except ImportError:
+    import utilities
+    import seriesmatch
+    import findtitle
+    from __init__ import __version__
+    
 import logging
 import logging.config
 import argparse
 import os
+import sys
+import shutil
 
-logging.config.fileConfig("logging.ini",disable_existing_loggers=False)
-logger = logging.getLogger('root')
+def findConfDir():
+    if sys.platform == 'win32':
+        return os.path.join(os.getenv('appdata'), 'pyAniSort')
+    elif sys.platform == 'linux2':
+        return os.path.join(os.getenv('HOME'), '.pyanisort')
+    
 
-
+def makeConfig(confPath):
+    os.mkdir(confPath)
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
+    shutil.copytree('logs', confPath)
+    shutil.copytree('conf', confPath)
+    
 def main():
     parser = argparse.ArgumentParser(description='Will automatically sort and rename anime files in a folder based off information gathered from anidb.net')
     subparsers = parser.add_subparsers(help='subcommand help', dest='command')
@@ -21,55 +40,84 @@ def main():
     sortParser.add_argument("toDir", help="The directory where files will go once sorted")
     sortParser.add_argument("-s", "--silent", action="store_true",
                     help="Turn off output to console (will still log to file)")
+    sortParser.add_argument("--history", help="history csv file containing the original path then the current path")
 
     undoParser =  subparsers.add_parser('undo', help='undo file sorting based of of a history csv file')
     undoParser.add_argument("startLine", type=int, help="the line of the csv file to start rename undo (enter 0 0 to undo entire file)")
     undoParser.add_argument("endLine", type=int, help="the line of the csv file to end rename undo (enter 0 to only undo the line of startLine)")
-    undoParser.add_argument("-f", "--file", help="history csv file containing the original path then the current path")
+    undoParser.add_argument("--history", help="history csv file containing the original path then the current path")
     args = parser.parse_args()
-
-
+    
+    if args.command is None:
+        parser.print_help()
+        return
+        
 
     if args.command == 'undo':
+        history=os.path.abspath(args.history)
+
+        confDir = findConfDir()
+        try:
+            os.chdir(confDir)
+        except IOError:
+            makeConfig()
+            os.chdir(confDir)
+
+        logging.config.fileConfig('conf/logger.conf', disable_existing_loggers=False)
+        logger = logging.getLogger('root')
+        
         logger.info('start moving file back to their original locations')
         try:
-            if args.file is None:
+            if args.history is None:
                 utilities.undoRename(args.startLine, args.endLine)
             else:
-                utilities.undoRename(args.startLine, args.endLine, args.file)
+                utilities.undoRename(args.startLine, args.endLine, history)
         except ValueError:
             logger.error("Could not undo specified line please check history csv file and ensure that line isn't blank")
-            exit(1)
+            return 1
         logger.info('files have finished moving back to their original locations')
+        
     elif args.command == 'sort':
-        #"/home/jeremy/.gvfs/torrents on jeremy-htpc/complete/"
-        #fromDir = "test"
-        #toDir = "final"
-        fromDir = args.fromDir
-        toDir = args.toDir
-        silent = args.silent
-        cacheDir='cache'
 
-        #TODO add support for command line arguments
-        version = 1
+        #ensure that program has full path for to and from directories before program cd's to its current location
+        fromDir = os.path.abspath(args.fromDir)
+        toDir = os.path.abspath(args.toDir)
+        silent = args.silent
+        history=os.path.abspath(args.history)
+        cacheDir = 'cache'
+        
+        confDir = findConfDir()
+        try:
+            os.chdir(confDir)
+        except IOError:
+            makeConfig()
+            os.chdir(confDir)
+            
+        logging.config.fileConfig('conf/logger.conf', disable_existing_loggers=False)
+        logger = logging.getLogger('root')
+
+        #need first character of version to use when downloading files using anidb HTTP api
+        version = __version__[0]
 
         logger.info("Starting to group files")
         try:
-            allShows = seriesMatch.groupAnimeFiles(fromDir, silentMode=silent)
+            allShows = seriesmatch.groupAnimeFiles(fromDir, silentMode=silent)
         except IOError as e:
             logger.error("Program exited with an error")
-            exit(1)
+            return 1
         logger.info("Finished grouping files")
 
         logger.info("Starting to generate filenames")
-        allNewFilenames = findTitle.generateFilenames(version, allShows, toDir, cacheDir)
+        allNewFilenames = findtitle.generateFilenames(int(version), allShows, toDir, cacheDir)
         logger.info("Finished generating filenames")
 
         logger.info("Starting to rename files")
-        utilities.renameFiles(allNewFilenames, storeHistory=True)
+        if args.history is None:
+                utilities.renameFiles(allNewFilenames, storeHistory=True)
+        else:
+            utilities.renameFiles(allNewFilenames, history, storeHistory=True)
         logger.info("Files have been renamed")
-    else:
-        exit(1)
+
 
 if __name__ == '__main__':
     main()
