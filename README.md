@@ -75,8 +75,9 @@ After any one of these commands are used the history.csv file will be modified t
 There are two files that are automatically created when pyAniSort is run.  
 prefNames.csv and history.csv
 
-As of right now they will be stored along with the log files in the python `lib/site-packages`
-Windows: `C:\Python33\Lib\site-packages`
+These files along with the logs are stored in the following locations:  
+Windows: `%APPDATA%\pyAniSort`  
+Linux: `~/.pyanisort`
 
 ### `prefNames.csv` - Prefered show names
 This file is for storing information about the show. This helps save time when gathering show information multiple times.
