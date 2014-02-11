@@ -17,7 +17,21 @@ import logging.config
 import argparse
 import os
 import sys
+import shutil
 
+def findConfDir():
+    if sys.platform == 'win32':
+        return os.path.join(os.getenv('appdata'), 'pyAniSort')
+    elif sys.platform == 'linux2':
+        return os.path.join(os.getenv('HOME'), '.pyanisort')
+    
+
+def makeConfig(confPath):
+    os.mkdir(confPath)
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
+    shutil.copytree('logs', confPath)
+    shutil.copytree('conf', confPath)
+    
 def main():
     parser = argparse.ArgumentParser(description='Will automatically sort and rename anime files in a folder based off information gathered from anidb.net')
     subparsers = parser.add_subparsers(help='subcommand help', dest='command')
@@ -42,7 +56,13 @@ def main():
     if args.command == 'undo':
         history=os.path.abspath(args.history)
 
-        os.chdir(os.path.dirname(os.path.abspath(__file__)))
+        confDir = findConfDir()
+        try:
+            os.chdir(confDir)
+        except IOError:
+            makeConfig()
+            os.chdir(confDir)
+
         logging.config.fileConfig('conf/logger.conf', disable_existing_loggers=False)
         logger = logging.getLogger('root')
         
@@ -65,8 +85,14 @@ def main():
         silent = args.silent
         history=os.path.abspath(args.history)
         cacheDir = 'cache'
-
-        os.chdir(os.path.dirname(os.path.abspath(__file__)))
+        
+        confDir = findConfDir()
+        try:
+            os.chdir(confDir)
+        except IOError:
+            makeConfig()
+            os.chdir(confDir)
+            
         logging.config.fileConfig('conf/logger.conf', disable_existing_loggers=False)
         logger = logging.getLogger('root')
 
