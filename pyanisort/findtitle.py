@@ -10,6 +10,7 @@ import os
 import re
 import xml.etree.ElementTree as ET
 import logging
+from time import sleep
 
 logger = logging.getLogger(__name__)
 aid=''
@@ -17,11 +18,14 @@ version=''
 
 #download series xml file from anidb server
 def downloadSeriesXML(xmlFileName, aid, version):
+    logger.info("Downloading information for {1}".format(xmlFileName, aid))
+    # wait to prevent ban on anidb server
+    sleep(1)
     url = 'http://api.anidb.net:9001/httpapi?request=anime&client=pyanisort&'
     url += 'clientver=' + str(version)
     url += '&protover=1&aid=' + str(aid)
     utilities.downloadFile(url, xmlFileName)
-    logger.info("File '{0}' downloaded for {1}".format(xmlFileName, aid))
+    
 
 #parse through series xml file and make a list of all titles
 #with corresponding episode number
@@ -30,7 +34,7 @@ def parseSeriesXML(seriesXMLFilename):
     try:
         xmlFile = utilities.openFile(seriesXMLFilename)
     except IOError as e:
-        logger.warning("File {1}: {2}".format(e.errno, seriesXMLFilename, e.strerror))
+        logger.warning("There is no local information for series: {0}".format(aid))
         downloadSeriesXML(seriesXMLFilename, aid, version)
         xmlFile = utilities.openFile(seriesXMLFilename)
     tree = ET.parse(xmlFile)
