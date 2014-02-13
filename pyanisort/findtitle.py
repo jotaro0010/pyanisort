@@ -108,7 +108,7 @@ def generateFilenamesSeries(xmlFilename, outDir,
                 titleList = parseSeriesXML(xmlFile)
                 titleList = sorted(titleList, reverse=True)
             else:
-                print ('{0} xml file is up to date'.format(seriesName),file=sys.stderr)
+                logger.error('{0} xml file is up to date'.format(seriesName))
 
         #start generating new names
         newNames = []
