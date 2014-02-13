@@ -70,14 +70,14 @@ Both of the following commands will only undo the file at line 44 of the history
 
 After any one of these commands are used the history.csv file will be modified to reflect the undo operation.
 
-## Important Files
+## Logs and other Important Files
+
+Logs and program data is stored in the following locations:  
+Windows: `%APPDATA%\pyAniSort`  
+Linux: `~/.pyanisort`
 
 There are two files that are automatically created when pyAniSort is run.  
 prefNames.csv and history.csv
-
-These files along with the logs are stored in the following locations:  
-Windows: `%APPDATA%\pyAniSort`  
-Linux: `~/.pyanisort`
 
 ### `prefNames.csv` - Prefered show names
 This file is for storing information about the show. This helps save time when gathering show information multiple times.
