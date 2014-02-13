@@ -1,10 +1,13 @@
-### CHANGE LOG
+## pyAniSort 1.0.2 (Febuary 11, 2014)
 
-* 02-11-2014 v1.2
-	* Program files are now saved to ~/.pyanisort on linux and %APPDATA%\pyAniSort on windows
+* Program files are now created and saved to ~/.pyanisort on linux and %APPDATA%\pyAniSort on windows
 	
-* 02-09-2014 v1.1
-	* Restructured program so that it could be downloaded and installed through the Python Package Index 
+## pyAniSort 1.0.1 (Febuary 09, 2014)
 
-* 02-06-2014 v1.0
-	* Initial upload
+* Restructured program so that it could be downloaded and installed through the Python Package Index 
+* Created setup.py and init.py
+* Program now changes working directory to program location to use data files stored there
+
+## pyAniSort 1.0.0 (Febuary 06, 2014)
+
+* Initial upload
