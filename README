@@ -26,7 +26,7 @@ renaming history
 | ``--history FILE`` changes where to save history file ('history.csv'
 is the default)
 
-``> pyAniSort sort 'from/directory' 'to/directory' -s --history history.csv``
+``$ pyAniSort sort 'from/directory' 'to/directory' -s --history history.csv``
 
 The program will sort this:
 
@@ -68,7 +68,7 @@ renaming history
 | ``--history FILE`` changes where to save history file ('history.csv'
 is the default)
 
-``> pyanisort undo startLine endLine --history history.csv``
+``$ pyanisort undo startLine endLine --history history.csv``
 
 | The first one will tell the program what line of the file to start on
 and the second will tell it what line to end on.
@@ -77,33 +77,33 @@ and the second will tell it what line to end on.
 | Running the following command will start undoing the files stored in
 history.csv from line 30 to line 40, or until the end of the file if
 there are less than 40 lines.
-| ``> pyanisort undo 30 40``
+| ``$ pyanisort undo 30 40``
 
 | this next command will undo all of the files stored in the history.csv
 file.
-| ``> pyanisort undo 0 0``
+| ``$ pyanisort undo 0 0``
 
 | Both of the following commands will only undo the file at line 44 of
 the history.csv file
-| ``> pyanisort undo 44 44``
-| ``> pyanisort undo 44 0``
+| ``$ pyanisort undo 44 44``
+| ``$ pyanisort undo 44 0``
 
 After any one of these commands are used the history.csv file will be
 modified to reflect the undo operation.
 
-Important Files
----------------
+Logs and other Important Files
+------------------------------
+
+| Logs and program data is stored in the following locations:
+| Windows: ``%APPDATA%\pyAniSort``
+| Linux: ``~/.pyanisort``
 
 | There are two files that are automatically created when pyAniSort is
 run.
 | prefNames.csv and history.csv
 
-| As of right now they will be stored along with the log files in the
-python ``lib/site-packages``
-| Windows: ``C:\Python33\Lib\site-packages``
-
-prefNames.csv - Prefered show names
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+``prefNames.csv`` - Prefered show names
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 | This file is for storing information about the show. This helps save
 time when gathering show information multiple times.
@@ -134,8 +134,48 @@ This is the contents of prefNames.csv that match the table
     9541,Shingeki no Kyojin,Shingeki no Kyojin
     9787,"Ore no Nounai Sentakushi ga, Gakuen Lovecome o Zenryoku de Jama Shiteiru",NouCome
 
-history.csv - File rename history
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------
+
+One of the useful things about putting this information in a csv file
+like this is that the changes can be made to it outside of the program.
+
+| For example:
+| The official name of ``NouCome`` above is quite a mouthfull. It also
+takes up a lot of space and might even make new filenames run into the
+255 character limit on windows.
+
+| So wouldn't it be better if you could change this:
+| ``Ore no Nounai Sentakushi ga, Gakuen Lovecome o Zenryoku de Jama Shiteiru``
+
+| To it's shorthand name:
+| ``NouCome``
+
+You can do this by editing the ``prefName.csv`` file. I suggest using a
+standard text editor than Excel. Excel might mess up the file and cause
+a problem when the program reads it.
+
+So you would edit the ``prefName.csv`` file from:
+
+::
+
+    prefName.csv
+    9541,Shingeki no Kyojin,Shingeki no Kyojin
+    9787,"Ore no Nounai Sentakushi ga, Gakuen Lovecome o Zenryoku de Jama Shiteiru",NouCome
+
+To this:
+
+::
+
+    prefName.csv
+    9541,Shingeki no Kyojin,Shingeki no Kyojin
+    9787,"NouCome",NouCome
+
+Now when the program goes to rename your files it will use ``NouCome``
+instead of
+``Ore no Nounai Sentakushi ga, Gakuen Lovecome o Zenryoku de Jama Shiteiru``
+
+``history.csv`` - File rename history
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 There are two columns in the history.csv file. The first refers to the
 original location of a video file and the second refers to the sorted
@@ -149,7 +189,7 @@ location
 | D:\\test\_files[Sub Group B] Other Series Name Ep01 [ABCD1234].mkv   | D:\\Anime\\Other Series Name\\Other Series Name - 01 - title.mkv   |
 +----------------------------------------------------------------------+--------------------------------------------------------------------+
 
-This is an example ot the contents of history.csv useig real filenames
+This is an example ot the contents of history.csv useing real filenames
 
 ::
 
@@ -160,7 +200,20 @@ This is an example ot the contents of history.csv useig real filenames
 Installation
 ------------
 
-``> pip install pyanisort``
+| Link to PyPI page: https://pypi.python.org/pypi/pyAniSort
+| There is also a windows installation binary if you don't want to
+install pip.
+
+| Make sure that you are using the python3 version of pip when
+installing.
+| This program only works with python3
+
+``$ pip install pyanisort``
+
+| If you don't have pip installed you can run these commands from the
+terminal to get it
+| ``$ sudo curl http://python-distribute.org/distribute_setup.py | python3``
+| ``$ sudo curl https://raw.github.com/pypa/pip/master/contrib/get-pip.py | python3``
 
 Possible Errors
 ---------------
@@ -185,3 +238,4 @@ Contact Me
 
 Questions or comments about ``pyAniSort``? send me an email at
 `jotaro0010@gmail.com <mailto:jotaro0010@gmail.com>`__.
+
