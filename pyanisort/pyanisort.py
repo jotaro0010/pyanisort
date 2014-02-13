@@ -29,8 +29,8 @@ def makeConfig(confPath):
     os.mkdir(confPath)
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
     
-    shutil.copytree('logs', confPath+'\logs')
-    shutil.copytree('conf', confPath+'\conf')
+    shutil.copytree('logs', os.path.join(confPath, 'logs'))
+    shutil.copytree('conf', os.path.join(confPath, 'conf'))
     
 def main():
     parser = argparse.ArgumentParser(description='Will automatically sort and rename anime files in a folder based off information gathered from anidb.net')
@@ -53,12 +53,13 @@ def main():
         return
         
     if args.command == 'undo':
-        history=os.path.abspath(args.history)
+        if args.history is not None:
+            history=os.path.abspath(args.history)
 
         confDir = findConfDir()
         try:
             os.chdir(confDir)
-        except IOError:
+        except (IOError, OSError):
             makeConfig(confDir)
             os.chdir(confDir)
 
@@ -82,13 +83,14 @@ def main():
         fromDir = os.path.abspath(args.fromDir)
         toDir = os.path.abspath(args.toDir)
         silent = args.silent
-        history=os.path.abspath(args.history)
+        if args.history is not None:
+            history=os.path.abspath(args.history)
         cacheDir = 'cache'
         
         confDir = findConfDir()
         try:
             os.chdir(confDir)
-        except IOError:
+        except (IOError, OSError):
             makeConfig(confDir)
             os.chdir(confDir)
             

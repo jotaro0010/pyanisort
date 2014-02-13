@@ -20,7 +20,7 @@ version=''
 def downloadSeriesXML(xmlFileName, aid, version):
     logger.info("Downloading information for {1}".format(xmlFileName, aid))
     # wait to prevent ban on anidb server
-    sleep(1)
+    sleep(3)
     url = 'http://api.anidb.net:9001/httpapi?request=anime&client=pyanisort&'
     url += 'clientver=' + str(version)
     url += '&protover=1&aid=' + str(aid)
