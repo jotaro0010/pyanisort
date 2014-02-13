@@ -6,4 +6,4 @@ Gathers information from anidb.net using the HTTP API to rename files from somet
 
 """
 
-__version__ = '1.2'
+__version__ = '1.0.2'
