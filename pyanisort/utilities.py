@@ -48,19 +48,23 @@ def downloadFile(url, filename):
     
     path, file = os.path.split(filename)
     
-    # make any directories that where not there before
-    try:
-        os.makedirs(path)
-    except (IOError, OSError) as e:
-        if (errno.errorcode[e.errno] == 'EEXIST'):
-            pass
-        else:
-            logger.error("Error[{0}] in directory {1}: {2}".format(e.errno, path, e.strerror))
+    if path != '':
+        # make any directories that where not there before
+        try:
+            os.makedirs(path)
+        except (IOError, OSError) as e:
+            if (errno.errorcode[e.errno] == 'EEXIST'):
+                pass
+            else:
+                logger.error("Error[{0}] in directory {1}: {2}".format(e.errno, path, e.strerror))
             
     try:
+        pass
+        '''
         with urllib.request.urlopen(url) as response,\
              open(filename, 'wb') as outFile:
             shutil.copyfileobj(response, outFile)
+        '''
     except IOError as e:
         logger.error("IOError[{0}] in file {1}: {2}".format(e.errno, filename, e.strerror))
     except (ValueError, urllib.error.HTTPError) as e:
@@ -68,9 +72,9 @@ def downloadFile(url, filename):
 
 
 
-def checkFileAge(file, daysOld=1):
+def checkFileAge(filename, daysOld=1):
     checkTime = datetime.now() - timedelta(days=daysOld)
-    filetime = datetime.fromtimestamp(os.path.getmtime(file))
+    filetime = datetime.fromtimestamp(os.path.getmtime(filename))
     if filetime < checkTime:
         return True
     else:
@@ -79,10 +83,10 @@ def checkFileAge(file, daysOld=1):
 def validateFilename(filename):
     # removes any invalid characters \/'":?"<>|
     drive, filePath = os.path.splitdrive(filename)
-    folderTree, file = os.path.split(filePath)
-    folderTree = re.sub('[\':?*"<>|]', '', folderTree) # doesn't remove \/ since it is a path
+    folder, file = os.path.split(filePath)
+    folder = re.sub('[\':?*"<>|]', '', folder) # doesn't remove \/ since it is a path
     file = re.sub('[\'\\/:?*"<>|]', '', file)
-    return os.path.join(drive, folderTree, file)
+    return os.path.join(drive, folder, file)
 
 def renameFiles(filenameList, histFile='history.csv', storeHistory=False):
     # open csv writer for creating rename history file

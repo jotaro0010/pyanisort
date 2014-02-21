@@ -118,6 +118,5 @@ def main():
         else:
             utilities.renameFiles(allNewFilenames, history, storeHistory=True)
         logger.info("Files have been renamed")
-
 if __name__ == '__main__':
     main()

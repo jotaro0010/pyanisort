@@ -147,8 +147,8 @@ def generatePrefNameCSV(xmlFilename, ShowList):
                 url = 'http://anidb.net/api/animetitles.xml.gz'
                 utilities.downloadFile(url, xmlFilename)
                 # search through xml file again
-                xmlFilename = utilities.openFile(xmlFilename)
-                tree = ET.parse(xmlFilename)
+                xmlFileObject = utilities.openFile(xmlFilename)
+                tree = ET.parse(xmlFileObject)
                 root = tree.getroot()
                 showMatches = findShowMatches(show, root)
         #get user to pick show from list or write a warning and do nothing if silent is on
