@@ -59,12 +59,10 @@ def downloadFile(url, filename):
                 logger.error("Error[{0}] in directory {1}: {2}".format(e.errno, path, e.strerror))
             
     try:
-        pass
-        '''
+        
         with urllib.request.urlopen(url) as response,\
              open(filename, 'wb') as outFile:
             shutil.copyfileobj(response, outFile)
-        '''
     except IOError as e:
         logger.error("IOError[{0}] in file {1}: {2}".format(e.errno, filename, e.strerror))
     except (ValueError, urllib.error.HTTPError) as e:
