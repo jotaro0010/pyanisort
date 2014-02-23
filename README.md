@@ -18,7 +18,7 @@ The verify option will check the CRC's of the files before and after sorting to 
 The copy option will copy files rather than move them. Copied files will not be reflected in the history csv file  
 `-c, --copy`       Will copy files instead of move them(history.csv will not be updated)  
 
-The silent option turns off any parts of the script that would ask for user input
+The silent option turns off any parts of the script that would ask for user input  
 `-s, --silent`     Turn off console interactivity  
 
 The history argument takes the name of a csv file that will store the renaming history  
