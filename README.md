@@ -10,13 +10,19 @@ And the second `undo`
 
 ### The sort command
 
-The sort command requires two arguments the from directory and the to directory
+The sort command requires two arguments the from directory and the to directory  
+
+The verify option will check the CRC's of the files before and after sorting to verify file integrity  
+`-v, --verify`     Will compare the crc's of the file before and after the move  
+
+The copy option will copy files rather than move them. Copied files will not be reflected in the history csv file  
+`-c, --copy`       Will copy files instead of move them(history.csv will not be updated)  
 
 The silent option turns off any parts of the script that would ask for user input
-`-s, --silent`     Turn off console interactivity
+`-s, --silent`     Turn off console interactivity  
 
-The history argument takes the name of a csv file that will store the renaming history
-`--history FILE`     changes where to save history file ('history.csv' is the default)
+The history argument takes the name of a csv file that will store the renaming history  
+`--history FILE`     changes where to save history file ('history.csv' is the default)  
 
 `$ pyAniSort sort 'from/directory' 'to/directory' -s --history history.csv`
 
@@ -29,6 +35,8 @@ The program will sort this:
 |   | [Sub Group B] Other Series Name Ep01 [ABCD1234].mkv
 |   | [Sub Group B] Other Series Name Ep02 [ABCD1234].mkv
 |   | [Sub Group B] Other Series Name Ep03 [ABCD1234].mkv
+|   | [Sub Group B] Other Series Name OP [ABCD1234].mkv
+|   | [Sub Group B] Other Series Name ED1 [ABCD1234].mkv
 ```
 
 To This:
@@ -42,16 +50,21 @@ To This:
 |   |   |-- Other Series Name - 01 - title.mkv
 |   |   |-- Other Series Name - 02 - title.mkv
 |   |   |-- Other Series Name - 03 - title.mkv
+|   |   |-- Other Series Name - OP01.mkv
+|   |   |-- Other Series Name - ED01.mkv
 ```
 
 ### The undo command
 
-The undo command will use the history.csv file to undo the sorting operation in case there was an error.
+The undo command will use the history.csv file to undo the sorting operation in case there was an error.  
 
-There are two required positional arguments that are required for the undo command
+There are two required positional arguments that are required for the undo command  
 
-The history argument takes the name of a csv file that will store the renaming history
-`--history FILE`     changes where to save history file ('history.csv' is the default)
+The verify option will check the CRC's of the files before and after sorting to verify file integrity  
+`-v, --verify`     Will compare the crc's of the file before and after the move  
+
+The history argument takes the name of a csv file that will store the renaming history  
+`--history FILE`     changes where to save history file ('history.csv' is the default)  
 
 `$ pyanisort undo startLine endLine --history history.csv`
 
