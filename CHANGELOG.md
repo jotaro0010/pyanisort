@@ -1,3 +1,9 @@
+## pyAniSort 1.0.3 (February 23, 2014)
+
+* Added an option to compare CRC's of files before and after they are sorted to verify integrity of file transfers
+* An option that has the program copy files rather than move them. copied files are not reflected in the history file
+* Will now detect if the file is an opening or ending song and will rename it accordingly
+* Will save a file with traceback if an unexpected error occurs
 
 ## pyAniSort 1.0.2 (February 11, 2014)
 
