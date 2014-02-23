@@ -18,17 +18,23 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-#Set reg to a regex or array of regex to loop through
-#group one must be show name group two must be episode number
-#Otherwise it uses the one I made
-#'(?i)(?:[^]]*\][ _.]?)((?:(?!-?[ _.]e?p?(?:isode[ _.]?)?\d)[!@#$%^&*()\\?<>;:\'\"{}\[\]|~`+=\w\s_-])+)(?:(?!\d).)*(\d{2,3})'
+# Set regex to a regex string or an array of regex strings to loop through
+# Group one must be show name group two must be episode number
+# Otherwise it uses the ones I made
+# Matches Endings and openings
+#'(?i)(?:[^]]*\][ _.]?)((?:(?!-?[ _.](?:En?D(?:ing)?|OP(?:ening)?)[ _.\d])[\w\s_-])+)(?:(?!\d|ED|OP).)*(OP(?:ening)?[ _.]?(?:\d{1,2})?|En?D(?:ing)?[ _.]?(?:\d{1,2})?)'
+# Matches Files
+#'(?i)(?:[^]]*\][ _.]?)((?:(?!-?[ _.]e?p?(?:isode[ _.]?)?\d{2,3})[!@#$%^&*()\\?<>;:\'\"{}\[\]|~`+=\w\s_-])+)(?:(?!\d).)*(\d{2,3})'
 #(!@#$%^&*()\?<>;:'"{}[]|~`+=) all of these are valid characters on linux systems included for completion
 # takes a filename and returns an array with the show name and episode number
 # returns [show, ep]
 def parseFilename(filename ,regex=None):
     path, file = os.path.split(filename)
     if (regex is None):
-        regex = ["(?i)(?:[^]]*\][ _.]?)((?:(?!-?[ _.]e?p?(?:isode[ _.]?)?\d)[!@#$%^&*()\\?<>;:\'\"{}\[\]|~`+=\w\s_-])+)(?:(?!\d).)*(\d{2,3})"]
+        regex = [
+            "(?i)(?:[^]]*\][ _.]?)((?:(?!-?[ _.](?:En?D(?:ing)?|OP(?:ening)?)[ _.\d])[!@#$%^&*()\\?<>;:\'\"{}\[\]|~`+=\w\s_-])+)(?:(?!\d|ED|OP).)*(OP(?:ening)?[ _.]?(?:\d{1,2})?|En?D(?:ing)?[ _.]?(?:\d{1,2})?)",
+            "(?i)(?:[^]]*\][ _.]?)((?:(?!-?[ _.]e?p?(?:isode[ _.]?)?\d{2,3})[!@#$%^&*()\\?<>;:\'\"{}\[\]|~`+=\w\s_-])+)(?:(?!\d).)*(\d{2,3})"
+            ]
     else:
         if type(regex) is list:
             regex = regex
@@ -36,15 +42,22 @@ def parseFilename(filename ,regex=None):
             regex = [regex]
         else:
             return
-    for r in regex:
-        m = re.match(r, file)
+    index = 0
+    while index < len(regex):
+        reg = regex[index]
+        m = re.match(reg, file)
         try:
             show = m.group(1)
             ep = m.group(2)
             break
         except AttributeError as e:
-            logger.debug("{0}: Could not find match in file '{1}'".format(r, file))
-            return
+            logger.debug("{0}: Could not find match in file '{1}'".format(reg, file))
+            if index < len(regex):
+                index += 1
+    else:
+        logger.debug("Could not find match in file '{1}'".format(reg, file))
+        return
+
     show = re.sub('[_.]', ' ', show)
     show = show.rstrip() # remove trailing spaces
     logger.debug("Found match in file '{0}': ({1}, {2})".format(file, show, ep))

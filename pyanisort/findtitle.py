@@ -115,6 +115,34 @@ def generateFilenamesSeries(xmlFilename, outDir,
         for fileEp, file in filenames:
             filename, ext = os.path.splitext(file)
             path, filename = os.path.split(file)
+
+            # checks if file is and ending or opening
+            if fileEp[0] == 'E' or fileEp[0] == 'e':
+                    m = re.search('\d{1,2}',fileEp)
+                    try:
+                        ep = m.group(0)
+                        ep = '{0:0=2d}'.format(int(ep))
+                    except AttributeError:
+                        ep = '01'
+                    newFilename = '{0} - ED{1}{2}'.format(
+                        seriesName, ep, ext)
+                    newFilename = os.path.join(outDir, seriesName, newFilename)
+                    newNames.append([file, newFilename])
+                    continue
+            elif fileEp[0] == 'O' or fileEp[0] == 'o':
+                m = re.search('\d{1,2}',fileEp)
+                try:
+                    ep = m.group(0)
+                    ep = '{0:0=2d}'.format(int(ep))
+                except AttributeError:
+                    ep = '01'
+                newFilename = '{0} - OP{1}{2}'.format(
+                    seriesName, ep, ext)
+                newFilename = os.path.join(outDir, seriesName, newFilename)
+                newNames.append([file, newFilename])
+                continue
+            
+            # If it isn't then it is an episode
             for ep, title in titleList:
                 if fileEp == ep:
                     newFilename = '{0} - {1} - {2}{3}'.format(
