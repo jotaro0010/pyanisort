@@ -2,6 +2,20 @@
 
 pyAniSort is a command line utility that will sort and rename anime video files into folders separated by the name of the series.
 
+## Installation
+Link to PyPI page: https://pypi.python.org/pypi/pyAniSort  
+There is also a windows installation binary if you don't want to install pip.
+
+Make sure that you are using the python3 version of pip when installing.  
+This program only works with python3  
+
+`$ pip install pyanisort`
+
+If you don't have pip installed you can run these commands from the terminal to get it  
+`$ wget https://raw.github.com/pypa/pip/master/contrib/get-pip.py`
+`$ sudo python3 get-pip.py`
+`$ sudo pip3 install pyanisort`
+
 ## Usage
 
 There are two different commands that pyAnisort has:  
@@ -157,20 +171,6 @@ history.csv
 D:\test_files\[EveTaku] Shingeki no Kyojin - 25 (1280x720 x264-Hi10P AAC)[783716E5].mkv,D:\Anime\Shingeki no Kyojin\Shingeki no Kyojin - 25 - The Wall Raid on Stohess District (3).mkv
 D:\test_files\[Irrational Typesetting Wizardry] NouCome - 01 [F87C6CC0].mkv,"D:\Anime\Ore no Nounai Sentakushi ga, Gakuen Lovecome o Zenryoku de Jama Shiteiru\Ore no Nounai Sentakushi ga, Gakuen Lovecome o Zenryoku de Jama Shiteiru - 01 - That Choice Put My Life in Motion.mkv"
 ```
-
-## Installation
-Link to PyPI page: https://pypi.python.org/pypi/pyAniSort  
-There is also a windows installation binary if you don't want to install pip.
-
-Make sure that you are using the python3 version of pip when installing.  
-This program only works with python3  
-
-`$ pip install pyanisort`
-
-If you don't have pip installed you can run these commands from the terminal to get it  
-`$ sudo curl http://python-distribute.org/distribute_setup.py | python3`
-`$ sudo curl https://raw.github.com/pypa/pip/master/contrib/get-pip.py | python3`
-
 
 ## Possible Errors
 There are a few possible errors that may occur when running this script
