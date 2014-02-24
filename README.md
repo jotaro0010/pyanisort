@@ -12,8 +12,8 @@ This program only works with python3
 `$ pip install pyanisort`
 
 If you don't have pip installed you can run these commands from the terminal to get it  
-`$ wget https://raw.github.com/pypa/pip/master/contrib/get-pip.py`
-`$ sudo python3 get-pip.py`
+`$ wget https://raw.github.com/pypa/pip/master/contrib/get-pip.py`  
+`$ sudo python3 get-pip.py`  
 `$ sudo pip3 install pyanisort`
 
 ## Usage
