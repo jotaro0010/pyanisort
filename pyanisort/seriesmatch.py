@@ -19,21 +19,17 @@ import logging
 logger = logging.getLogger(__name__)
 
 # Set regex to a regex string or an array of regex strings to loop through
-# Group one must be show name group two must be episode number
-# Otherwise it uses the ones I made
-# Matches Endings and openings
-#'(?i)(?:[^]]*\][ _.]?)((?:(?!-?[ _.](?:En?D(?:ing)?|OP(?:ening)?)[ _.\d])[\w\s_-])+)(?:(?!\d|ED|OP).)*(OP(?:ening)?[ _.]?(?:\d{1,2})?|En?D(?:ing)?[ _.]?(?:\d{1,2})?)'
-# Matches Files
-#'(?i)(?:[^]]*\][ _.]?)((?:(?!-?[ _.]e?p?(?:isode[ _.]?)?\d{2,3})[!@#$%^&*()\\?<>;:\'\"{}\[\]|~`+=\w\s_-])+)(?:(?!\d).)*(\d{2,3})'
+# when creating new regex group one must be show name group two must be episode number
 #(!@#$%^&*()\?<>;:'"{}[]|~`+=) all of these are valid characters on linux systems included for completion
-# takes a filename and returns an array with the show name and episode number
 # returns [show, ep]
 def parseFilename(filename ,regex=None):
     path, file = os.path.split(filename)
     if (regex is None):
         regex = [
-            "(?i)(?:[^]]*\][ _.]?)((?:(?!-?[ _.](?:En?D(?:ing)?|OP(?:ening)?)[ _.\d])[!@#$%^&*()\\?<>;:\'\"{}\[\]|~`+=\w\s_-])+)(?:(?!\d|ED|OP).)*(OP(?:ening)?[ _.]?(?:\d{1,2})?|En?D(?:ing)?[ _.]?(?:\d{1,2})?)",
-            "(?i)(?:[^]]*\][ _.]?)((?:(?!-?[ _.]e?p?(?:isode[ _.]?)?\d{2,3})[!@#$%^&*()\\?<>;:\'\"{}\[\]|~`+=\w\s_-])+)(?:(?!\d).)*(\d{2,3})"
+            "(?i)(?:[^]]*\][ _.]?)((?:(?!-?[ _.](?:En?D(?:ing)?|OP(?:ening)?|E?P?(?:isode[ _.]?)?\d{2,3}))[!@#$%^&*()\\?<>;:\'\"{}\[\]|~`+=\w\s._-])+)(?:(?!\d|En?D(?:ing)?|OP(?:ening)?|\[[\dA-F]{8}\]).)*(\d{2,3})", # Matches Show and episode (Requires Sub Group for Accuracy)
+            "(?i)(?:[^]]*\][ _.]?)((?:(?!-?[ _.](?:En?D(?:ing)?|OP(?:ening)?|E?P?(?:isode[ _.]?)?\d{2,3}))[!@#$%^&*()\\?<>;:\'\"{}\[\]|~`+=\w\s._-])+)(?:(?!En?D(?:ing)?|OP(?:ening)?|\[[\dA-F]{8}\]).)*(OP(?:ening)?[ _.]?(?:\d{1,2})?|En?D(?:ing)?[ _.]?(?:\d{1,2})?)", # Matches Opening and Endings (Requires Sub Group for Accuracy)
+            "(?i)((?:(?!-?[ _.](?:En?D(?:ing)?|OP(?:ening)?|E?P?(?:isode[ _.]?)?\d{2,3}))[!@#$%^&*()\\?<>;:\'\"{}\[\]|~`+=\w\s._-])+)(?:(?!\d|En?D(?:ing)?|OP(?:ening)?|\[[\dA-F]{8}\]).)*(\d{2,3})",# Matches Show and episode (Doesn't require sub group)
+            "(?i)(?:[^]]*\][ _.]?)((?:(?!-?[ _.](?:En?D(?:ing)?|OP(?:ening)?|E?P?(?:isode[ _.]?)?\d{2,3}))[!@#$%^&*()\\?<>;:\'\"{}\[\]|~`+=\w\s._-])+)(?:(?!En?D(?:ing)?|OP(?:ening)?|\[[\dA-F]{8}\]).)*(OP(?:ening)?[ _.]?(?:\d{1,2})?|En?D(?:ing)?[ _.]?(?:\d{1,2})?)" # Matches Opening and Endings (Doesn't require sub group)
             ]
     else:
         if type(regex) is list:
@@ -51,7 +47,7 @@ def parseFilename(filename ,regex=None):
             ep = m.group(2)
             break
         except AttributeError as e:
-            logger.debug("{0}: Could not find match in file '{1}'".format(reg, file))
+            logger.debug("Regex {0}: Could not find match in file '{1}'".format(index, file))
             if index < len(regex):
                 index += 1
     else:
@@ -60,14 +56,14 @@ def parseFilename(filename ,regex=None):
 
     show = re.sub('[_.]', ' ', show)
     show = show.rstrip() # remove trailing spaces
-    logger.debug("Found match in file '{0}': ({1}, {2})".format(file, show, ep))
+    logger.debug("Regex {0}: Found match in file '{1}': ({2}, {3})".format(index, file, show, ep))
     return [show, ep]
 
 # set precision to a float between 0 and 1
 # root is the root tag of the xmlfile
 # the closer to 0 the less precise the match
 # returns [[aid, title], [aid, title] ... ]
-def findShowMatches(findMatch, root, precision=.95):
+def findShowMatches(findMatch, root, precision=.9):
     allMatches = []
 
     # search throuh anime subtags for a matching title
