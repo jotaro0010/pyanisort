@@ -105,7 +105,7 @@ def generateFilenamesSeries(xmlFilename, outDir,
                     xmlFile = utilities.openFile(xmlFilename)
                 except IOError as e:
                     logger.error("IOError[{0}] in file {1}: {2}".format(e.errno, filename, e.strerror))
-                titleList = parseSeriesXML(xmlFile)
+                titleList = parseSeriesXML(xmlFilename)
                 titleList = sorted(titleList, reverse=True)
             else:
                 logger.error('{0} xml file is up to date'.format(seriesName))
