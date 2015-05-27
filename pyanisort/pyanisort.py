@@ -22,7 +22,7 @@ import shutil
 def findConfDir():
     if sys.platform == 'win32':
         return os.path.join(os.getenv('appdata'), 'pyAniSort')
-    elif sys.platform == 'linux2':
+    elif sys.platform.startswith('linux') or sys.platform == 'darwin' or sys.platform.startswith('freebsd'):
         return os.path.join(os.getenv('HOME'), '.pyanisort')
     
 def makeConfig(confPath):
