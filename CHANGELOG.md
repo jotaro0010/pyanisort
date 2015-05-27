@@ -1,3 +1,7 @@
+##pyAniSort 1.0.4 (May 27, 2015)
+
+* Added support for freeBSD and OS X
+
 ## pyAniSort 1.0.3 (February 23, 2014)
 
 * Added an option to compare CRC's of files before and after they are sorted to verify integrity of file transfers
