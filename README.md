@@ -2,7 +2,7 @@
 
 pyAniSort is a command line utility that will sort and rename anime video files into folders separated by the name of the series.
 
-I made this as a way to practice python. Filename matching is not the most accurate and it will overwrite existing files without asking for confirmation. I plan on rewriting the program eventually so I will not be doing any more updates.
+I made this as a way to practice python. Filename matching is not the most accurate and it will overwrite existing files without asking for confirmation. If you actually want to sort you anime I recommend filebot or sonarr instead.
 
 ## Installation
 Link to PyPI page: https://pypi.python.org/pypi/pyAniSort  
