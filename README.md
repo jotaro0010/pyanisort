@@ -179,9 +179,3 @@ This means that the anidb.net server has gotten too many requests from the machi
 It will refuse any more connections for the next couple hours.
 
 This is a security measure put in place by the server and I have not found any other method of getting around it other than by waiting a couple hours to run the script again
-
-
-## Contact Me
-
-Questions or comments about `pyAniSort`? send me an email at [jotaro0010@gmail.com](mailto:jotaro0010@gmail.com).
-
